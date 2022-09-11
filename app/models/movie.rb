@@ -23,4 +23,8 @@ class Movie < ApplicationRecord
     RATINGS = %w(G PG PG-13 R NC-17)
     validates :rating, inclusion: { in: RATINGS }
 
+    def average_stars
+        reviews.average(:stars) || 0.0
+    end
+
 end
