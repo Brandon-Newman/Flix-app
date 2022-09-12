@@ -8,4 +8,7 @@ Rails.application.routes.draw do
 
   resources :movies
 
+  get "signup" => "users#new"
+
+
 end
