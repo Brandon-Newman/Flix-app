@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
-
-    def index
+  
+  before_action :require_signin, except: [:new, :create]  
+  
+  def require_signin
+    unless current_user
+      redirect_to new_session_url, alert: "Please sign in first!"
+    end
+  end
+  
+  def index
       @users = User.all
     end
   
