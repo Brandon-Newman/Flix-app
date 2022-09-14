@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  
   before_action :require_signin, except: [:new, :create]  
   before_action :require_correct_user, only: [:edit, :update, :destroy] 
   
@@ -15,6 +14,7 @@ class UsersController < ApplicationController
   
     def show
       @user = User.find(params[:id])
+      @reviews = @user.reviews
     end
   
     def new
