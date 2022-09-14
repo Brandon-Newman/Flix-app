@@ -1,5 +1,6 @@
 class Movie < ApplicationRecord
     has_many :reviews, dependent: :destroy
+    has_many :favorites, dependent: :destroy
 
     def flop?
         total_gross.blank? || total_gross < 225_000_000
