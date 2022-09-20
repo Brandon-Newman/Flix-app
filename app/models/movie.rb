@@ -1,4 +1,6 @@
 class Movie < ApplicationRecord
+    before_save :set_slug
+
     has_many :reviews, dependent: :destroy
     has_many :favorites, dependent: :destroy
     has_many :fans, through: :favorites, source: :user
@@ -16,6 +18,7 @@ class Movie < ApplicationRecord
     scope :recent, ->(max=5) { released.limit(max) }
 
     validates :title, :released_on, :duration, presence: true
+    validates :title, presence: true, uniqueness: true
 
     validates :description, length: { minimum: 25 }
 
@@ -33,4 +36,13 @@ class Movie < ApplicationRecord
         reviews.average(:stars) || 0.0
     end
 
+    def to_param
+        slug
+    end
+
+private
+    def set_slug
+        self.slug = title.parameterize
+    end
+    
 end
