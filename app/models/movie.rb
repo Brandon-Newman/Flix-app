@@ -9,9 +9,11 @@ class Movie < ApplicationRecord
         total_gross.blank? || total_gross < 225_000_000
     end
 
-    def self.released
-        where("released_on < ?", Time.now).order("released_on desc")
-    end
+    scope :released, -> { where("released_on < ?", Time.now).order("released_on desc") }
+
+    scope :upcoming, -> { where("released_on > ?", Time.now).order("released_on asc") }
+
+    scope :recent, ->(max=5) { released.limit(max) }
 
     validates :title, :released_on, :duration, presence: true
 
